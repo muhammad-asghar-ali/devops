@@ -123,3 +123,19 @@
 ### push docker image to docker registry command
 
 `docker push <docker_id>/<image_name:image_tag>`
+
+### check docker network command
+
+`docker network ls`
+
+### check docker network inspect command
+
+`docker network inspect bridge`
+
+### docker link services command
+
+`docker run -p <host_port>:<docker_port> --env ENV_VARIABLES={values} --name <service_name_build_container_2> --link <service_name_build_container_1> <service_name_build_container_2>`
+
+### docker create network
+
+`docker network create <network_name>`

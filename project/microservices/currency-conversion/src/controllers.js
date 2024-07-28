@@ -13,9 +13,9 @@ export const convertCurrency = async (req, res) => {
   logger.info(`Received Request to convert from ${quantity} ${from} to ${to}.`);
 
   try {
-    const response = await axios.get(
-      `http://localhost:8000/currency-exchange/from/${from}/to/${to}`
-    );
+    const currencyExchangeServiceUrl = `${process.env.CURRENCY_EXCHANGE_SERVICE_HOST}/currency-exchange/from/${from}/to/${to}`;
+    logger.info(`Connecting to ${currencyExchangeServiceUrl}`);
+    const response = await axios.get(currencyExchangeServiceUrl);
     const exchangeValue = response.data;
 
     const convertedValue =

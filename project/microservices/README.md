@@ -48,3 +48,26 @@ http://localhost:8100/currency-conversion/from/USD/to/PKR/quantity/10
 - You don't want to HARDCODE
 - Configure an Environment Variable - `CURRENCY_EXCHANGE_SERVICE_HOST`
 - --env CURRENCY_EXCHANGE_SERVICE_HOST=http://currency-exchange
+
+### Run services
+
+1. Build the docker image of both service currency-exchange and currency-conversion (bridge network)
+
+`docker build -t currency-conversion .`
+`docker build -t currency-exchange .`
+
+Now run the both dokcer images in detach mode with name
+
+`docker run -d -p 8000:8000 --name currency-exchange currency-exchange`
+`docker run -d -p 8100:8100 --name currency-conversion currency-conversion`
+
+Link servies using easy and simple method (linker)
+
+`docker run -p 8100:8100 --env CURRENCY_EXCHANGE_SERVICE_HOST=http://currency-exchange:8000 --name currency-conversion --link currency-exchange currency-conversion`
+
+2. Create a custom network and link the bother microservice with new custom created network
+
+`docker run -d -p 8000:8000 --name currency-exchange --network=currency currency-exchange`
+`ocker run -p 8100:8100 --env CURRENCY_EXCHANGE_SERVICE_HOST=http://currency-exchange:8000 --name currency-conversion --network=currency currency-conversion`
+
+3. use docker-compose.yml
