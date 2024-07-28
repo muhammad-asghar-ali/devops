@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  currency-exchange:
+    build:
+      context: ./currency-exchange
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    restart: always
+    networks:
+      - currency
+
+  currency-conversion:
+    build:
+      context: ./currency-conversion
+      dockerfile: Dockerfile
+    ports:
+      - "8100:8100"
+    restart: always
+    environment:
+      CURRENCY_EXCHANGE_SERVICE_HOST: http://currency-exchange:8000
+    depends_on:
+      - currency-exchange
+    networks:
+      - currency
+  
+# Networks to be created to facilitate communication between containers
+networks:
+  currency:
